@@ -21,6 +21,7 @@
 #include <yarp/sig/Vector.h>
 
 // YARP Sensor Interfaces
+#include <yarp/dev/ReturnValue.h>
 #include <yarp/dev/IAmplifierControl.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IGenericSensor.h>
@@ -1122,8 +1123,8 @@ struct YarpSensorBridge::Impl
             controlBoardRemapperInterfaces.axis->getAxisName(DOF, joint);
             controlBoardRemapperInterfaces.axis->getJointType(DOF, jType);
             controlBoardJoints.push_back(joint);
-            if (jType != yarp::dev::VOCAB_JOINTTYPE_REVOLUTE
-                && jType != yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
+            if (jType != yarp::dev::JointTypeEnum::VOCAB_JOINTTYPE_REVOLUTE
+                && jType != yarp::dev::JointTypeEnum::VOCAB_JOINTTYPE_PRISMATIC)
             {
                 log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
                              "supported.",
@@ -1131,7 +1132,7 @@ struct YarpSensorBridge::Impl
                 return false;
             }
 
-            controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
+            controlBoardJointTypes.push_back(yarp::dev::JointTypeEnum::VOCAB_JOINTTYPE_REVOLUTE == jType
                                                  ? JointType::REVOLUTE
                                                  : JointType::PRISMATIC);
         }
@@ -1844,11 +1845,11 @@ struct YarpSensorBridge::Impl
         bool ok{true};
         ok = ok
              && controlBoardRemapperInterfaces.pids
-                    ->getPidReferences(yarp::dev::VOCAB_PIDTYPE_POSITION,
+                    ->getPidReferences(yarp::dev::PidControlTypeEnum::VOCAB_PIDTYPE_POSITION,
                                        controlBoardRemapperMeasures.pidPositionsUnordered.data());
         ok = ok
              && controlBoardRemapperInterfaces.pids
-                    ->getPidErrors(yarp::dev::VOCAB_PIDTYPE_POSITION,
+                    ->getPidErrors(yarp::dev::PidControlTypeEnum::VOCAB_PIDTYPE_POSITION,
                                    controlBoardRemapperMeasures.pidPositionErrorsUnordered.data());
 
         if (!ok)
