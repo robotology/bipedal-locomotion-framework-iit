@@ -106,7 +106,7 @@ public:
     virtual yarp::dev::ReturnValue getLastJointFault(int j, int& fault, std::string& message);
 
     // ENCODERS
-    virtual yarp::dev::ReturnValue getAxes(int* ax);
+    virtual yarp::dev::ReturnValue getAxes(std::size_t& ax);
     virtual yarp::dev::ReturnValue resetEncoder(int j);
     virtual yarp::dev::ReturnValue resetEncoders();
     virtual yarp::dev::ReturnValue setEncoder(int j, double val);
@@ -333,4 +333,3 @@ public:
 };
 
 #endif /* CODYCO_PASS_THROUGHT_CONTROL_BOARD_H */
-

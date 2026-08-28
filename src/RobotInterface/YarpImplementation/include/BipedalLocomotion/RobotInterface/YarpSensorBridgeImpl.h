@@ -1113,12 +1113,12 @@ struct YarpSensorBridge::Impl
         // get the names of all the joints available in the attached remote control board remapper
         std::vector<std::string> controlBoardJoints;
         std::vector<JointType> controlBoardJointTypes;
-        int controlBoardDOFs;
-        controlBoardRemapperInterfaces.encoders->getAxes(&controlBoardDOFs);
+        std::size_t controlBoardDOFs = 0;
+        controlBoardRemapperInterfaces.encoders->getAxes(controlBoardDOFs);
 
         std::string joint;
         yarp::dev::JointTypeEnum jType;
-        for (int DOF = 0; DOF < controlBoardDOFs; DOF++)
+        for (std::size_t DOF = 0; DOF < controlBoardDOFs; DOF++)
         {
             controlBoardRemapperInterfaces.axis->getAxisName(DOF, joint);
             controlBoardRemapperInterfaces.axis->getJointType(DOF, jType);

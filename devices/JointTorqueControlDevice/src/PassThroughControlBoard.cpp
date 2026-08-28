@@ -122,7 +122,7 @@ ReturnValue PassThroughControlBoard::getLastJointFault(int j, int& fault, std::s
 }
 
 // ENCODERS
-ReturnValue PassThroughControlBoard::getAxes(int* ax)
+ReturnValue PassThroughControlBoard::getAxes(std::size_t& ax)
 {
     if (!proxyIEncodersTimed)
     {
@@ -1683,4 +1683,3 @@ ReturnValue PassThroughControlBoard::getVelLimits(int axis, double* min, double*
     }
     return proxyIControlLimits->getVelLimits(axis, min, max);
 }
-

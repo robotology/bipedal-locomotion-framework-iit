@@ -1392,7 +1392,9 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
     // number of axis is read and stored
     if (ret)
     {
-        ret = ret && this->getAxes(&axes);
+        std::size_t numberOfAxes = 0;
+        ret = ret && this->getAxes(numberOfAxes);
+        axes = static_cast<int>(numberOfAxes);
     }
 
     // initialization of std::vector

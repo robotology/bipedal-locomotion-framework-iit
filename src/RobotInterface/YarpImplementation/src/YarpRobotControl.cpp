@@ -390,8 +390,8 @@ yarp::dev::ReturnValue
         }
 
         // get the number of degree of freedom
-        int dofs = 0;
-        if (!encodersInterface->getAxes(&dofs))
+        std::size_t dofs = 0;
+        if (!encodersInterface->getAxes(dofs))
         {
             log()->error("{} Cannot get the actuated DoFs.", errorPrefix);
             return false;
@@ -930,9 +930,9 @@ yarp::dev::ReturnValue
                                         scaling * (jointError / positioningDurationSeconds));
             }
 
-            if (!this->positionInterface->setRefSpeeds(n,
-                                                       jointIndices.data(),
-                                                       this->subsetRefSpeeds.data()))
+            if (!this->positionInterface->setTrajSpeeds(n,
+                                                        jointIndices.data(),
+                                                        this->subsetRefSpeeds.data()))
             {
                 log()->error("{} Unable to set the reference speed for the position control joints.",
                              errorPrefix);
