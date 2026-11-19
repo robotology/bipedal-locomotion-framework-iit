@@ -1392,7 +1392,9 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
     // number of axis is read and stored
     if (ret)
     {
-        ret = ret && this->getAxes(&axes);
+        std::size_t numberOfAxes = 0;
+        ret = ret && this->getAxes(numberOfAxes);
+        axes = static_cast<int>(numberOfAxes);
     }
 
     // initialization of std::vector
@@ -1499,102 +1501,128 @@ bool JointTorqueControlDevice::close()
 }
 
 // CONTROL MODE
-bool JointTorqueControlDevice::getControlMode(int j, int* mode)
+ReturnValue JointTorqueControlDevice::getAvailableControlModes(
+    int j,
+    std::vector<SelectableControlModeEnum>& avail)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
 
     std::lock_guard<std::mutex> lock(globalMutex);
 
-    bool ret = proxyIControlMode->getControlMode(j, mode);
-    if (isHijackingTorqueControl(j) && (*mode) == VOCAB_CM_CURRENT)
+    ReturnValue ret = proxyIControlMode->getAvailableControlModes(j, avail);
+    if (ret && std::find(avail.begin(), avail.end(), SelectableControlModeEnum::VOCAB_CM_CURRENT)
+                   != avail.end()
+        && std::find(avail.begin(), avail.end(), SelectableControlModeEnum::VOCAB_CM_TORQUE)
+               == avail.end())
     {
-        *mode = VOCAB_CM_TORQUE;
+        avail.push_back(SelectableControlModeEnum::VOCAB_CM_TORQUE);
     }
     return ret;
 }
 
-bool JointTorqueControlDevice::getControlModes(int* modes)
+ReturnValue JointTorqueControlDevice::getControlMode(int j, ControlModeEnum& mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
 
     std::lock_guard<std::mutex> lock(globalMutex);
 
-    bool ret = proxyIControlMode->getControlModes(modes);
+    ReturnValue ret = proxyIControlMode->getControlMode(j, mode);
+    if (ret && isHijackingTorqueControl(j) && mode == ControlModeEnum::VOCAB_CM_CURRENT)
+    {
+        mode = ControlModeEnum::VOCAB_CM_TORQUE;
+    }
+    return ret;
+}
+
+ReturnValue JointTorqueControlDevice::getControlModes(std::vector<ControlModeEnum>& modes)
+{
+    if (!proxyIControlMode)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+
+    std::lock_guard<std::mutex> lock(globalMutex);
+
+    ReturnValue ret = proxyIControlMode->getControlModes(modes);
     for (int j = 0; j < this->axes; j++)
     {
-        if (this->isHijackingTorqueControl(j) && modes[j] == VOCAB_CM_CURRENT)
+        if (ret && this->isHijackingTorqueControl(j)
+            && modes[j] == ControlModeEnum::VOCAB_CM_CURRENT)
         {
-            modes[j] = VOCAB_CM_TORQUE;
+            modes[j] = ControlModeEnum::VOCAB_CM_TORQUE;
         }
     }
     return ret;
 }
 
 // CONTROL MODE
-bool JointTorqueControlDevice::getControlModes(const int n_joint, const int* joints, int* modes)
+ReturnValue JointTorqueControlDevice::getControlModes(std::vector<int> joints,
+                                                      std::vector<ControlModeEnum>& modes)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
 
     std::lock_guard<std::mutex> lock(globalMutex);
 
-    bool ret = proxyIControlMode->getControlModes(n_joint, joints, modes);
-    for (int i = 0; i < n_joint; i++)
+    ReturnValue ret = proxyIControlMode->getControlModes(joints, modes);
+    for (std::size_t i = 0; i < joints.size(); i++)
     {
         int j = joints[i];
-        if (this->isHijackingTorqueControl(j) && modes[i] == VOCAB_CM_CURRENT)
+        if (ret && this->isHijackingTorqueControl(j)
+            && modes[i] == ControlModeEnum::VOCAB_CM_CURRENT)
         {
-            modes[i] = VOCAB_CM_TORQUE;
+            modes[i] = ControlModeEnum::VOCAB_CM_TORQUE;
         }
     }
     return ret;
 }
 
-bool JointTorqueControlDevice::setControlMode(const int j, const int mode)
+ReturnValue JointTorqueControlDevice::setControlMode(int j, SelectableControlModeEnum mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
 
     std::lock_guard<std::mutex> lock(globalMutex);
 
-    int new_mode = mode;
-    if (new_mode == VOCAB_CM_TORQUE)
+    SelectableControlModeEnum newMode = mode;
+    if (newMode == SelectableControlModeEnum::VOCAB_CM_TORQUE)
     {
         this->startHijackingTorqueControlIfNecessary(j);
-        new_mode = VOCAB_CM_CURRENT;
+        newMode = SelectableControlModeEnum::VOCAB_CM_CURRENT;
     } else
     {
         this->stopHijackingTorqueControlIfNecessary(j);
     }
 
-    return proxyIControlMode->setControlMode(j, new_mode);
+    return proxyIControlMode->setControlMode(j, newMode);
 }
 
-bool JointTorqueControlDevice::setControlModes(int* modes)
+ReturnValue JointTorqueControlDevice::setControlModes(
+    std::vector<SelectableControlModeEnum> modes)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
 
     std::lock_guard<std::mutex> lock(globalMutex);
 
     for (int j = 0; j < this->axes; j++)
     {
-        if (modes[j] == VOCAB_CM_TORQUE)
+        if (modes[j] == SelectableControlModeEnum::VOCAB_CM_TORQUE)
         {
             this->startHijackingTorqueControlIfNecessary(j);
-            modes[j] = VOCAB_CM_CURRENT;
+            modes[j] = SelectableControlModeEnum::VOCAB_CM_CURRENT;
         } else
         {
             this->stopHijackingTorqueControlIfNecessary(j);
@@ -1604,44 +1632,46 @@ bool JointTorqueControlDevice::setControlModes(int* modes)
     return proxyIControlMode->setControlModes(modes);
 }
 
-bool JointTorqueControlDevice::setControlModes(const int n_joint, const int* joints, int* modes)
+ReturnValue JointTorqueControlDevice::setControlModes(
+    std::vector<int> joints,
+    std::vector<SelectableControlModeEnum> modes)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
 
     std::lock_guard<std::mutex> lock(globalMutex);
 
-    for (int i = 0; i < n_joint; i++)
+    for (std::size_t i = 0; i < joints.size(); i++)
     {
         int j = joints[i];
-        if (modes[i] == VOCAB_CM_TORQUE)
+        if (modes[i] == SelectableControlModeEnum::VOCAB_CM_TORQUE)
         {
             this->startHijackingTorqueControlIfNecessary(j);
-            modes[i] = VOCAB_CM_CURRENT;
+            modes[i] = SelectableControlModeEnum::VOCAB_CM_CURRENT;
         } else
         {
             this->stopHijackingTorqueControlIfNecessary(j);
         }
     }
 
-    return proxyIControlMode->setControlModes(n_joint, joints, modes);
+    return proxyIControlMode->setControlModes(joints, modes);
 }
 
-bool JointTorqueControlDevice::setRefTorques(const double* trqs)
+ReturnValue JointTorqueControlDevice::setRefTorques(const double* trqs)
 {
     {
         std::lock_guard<std::mutex>(this->globalMutex);
         memcpy(desiredJointTorques.data(), trqs, this->axes * sizeof(double));
     }
 
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
-bool JointTorqueControlDevice::setRefTorques(const int n_joints,
-                                             const int* joints,
-                                             const double* trqs)
+ReturnValue JointTorqueControlDevice::setRefTorques(const int n_joints,
+                                                    const int* joints,
+                                                    const double* trqs)
 {
     {
         std::lock_guard<std::mutex>(this->globalMutex);
@@ -1651,10 +1681,10 @@ bool JointTorqueControlDevice::setRefTorques(const int n_joints,
         }
     }
 
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
-bool JointTorqueControlDevice::setRefTorque(int j, double trq)
+ReturnValue JointTorqueControlDevice::setRefTorque(int j, double trq)
 {
     std::lock_guard<std::mutex>(this->globalMutex);
     desiredJointTorques[j] = trq;
@@ -1663,21 +1693,21 @@ bool JointTorqueControlDevice::setRefTorque(int j, double trq)
     // means that multiple joints are updated and this will generate a huge number of messages sent
     // to the low level
 
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
-bool JointTorqueControlDevice::getRefTorques(double* trqs)
+ReturnValue JointTorqueControlDevice::getRefTorques(double* trqs)
 {
     std::lock_guard<std::mutex>(this->globalMutex);
     memcpy(trqs, desiredJointTorques.data(), this->axes * sizeof(double));
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
-bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
+ReturnValue JointTorqueControlDevice::getRefTorque(int j, double* trq)
 {
     std::lock_guard<std::mutex>(this->globalMutex);
     *trq = desiredJointTorques[j];
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
 // TO BE UPDATE
@@ -1687,11 +1717,11 @@ bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
 // zero constant values.
 // Once there will be a dedicated interface for the friction torque or solution
 // to publish the friction torque, this method will be updated.
-bool JointTorqueControlDevice::getMotorEncoderAccelerations(double* accs)
+ReturnValue JointTorqueControlDevice::getMotorEncoderAccelerations(double* accs)
 {
     std::lock_guard<std::mutex>(this->globalMutex);
     memcpy(accs, estimatedFrictionTorques.data(), this->axes * sizeof(double));
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
 // TO BE UPDATE
@@ -1701,11 +1731,11 @@ bool JointTorqueControlDevice::getMotorEncoderAccelerations(double* accs)
 // zero constant values.
 // Once there will be a dedicated interface for the friction torque or solution
 // to publish the friction torque, this method will be updated.
-bool JointTorqueControlDevice::getMotorEncoderAcceleration(int j, double* acc)
+ReturnValue JointTorqueControlDevice::getMotorEncoderAcceleration(int j, double* acc)
 {
     std::lock_guard<std::mutex>(this->globalMutex);
     *acc = estimatedFrictionTorques[j];
-    return true;
+    return ReturnValue::return_code::return_value_ok;
 }
 
 // HIJACKED CONTROL THREAD

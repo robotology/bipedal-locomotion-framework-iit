@@ -29,6 +29,8 @@
 #include <yarp/dev/IJointFault.h>
 #include <yarp/dev/IMotor.h>
 
+#include <vector>
+
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 namespace BipedalLocomotion
@@ -97,212 +99,237 @@ public:
     virtual bool detachAll();
 
     // GEARBOX RATIO
-    virtual bool getGearboxRatio(int m, double* val);
+    virtual yarp::dev::ReturnValue getGearboxRatio(int m, double* val);
+    virtual yarp::dev::ReturnValue setGearboxRatio(int m, const double val);
 
     // JOINT FAULT
-    virtual bool getLastJointFault(int j, int& fault, std::string& message);
+    virtual yarp::dev::ReturnValue getLastJointFault(int j, int& fault, std::string& message);
 
     // ENCODERS
-    virtual bool getAxes(int* ax);
-    virtual bool resetEncoder(int j);
-    virtual bool resetEncoders();
-    virtual bool setEncoder(int j, double val);
-    virtual bool setEncoders(const double* vals);
-    virtual bool getEncoder(int j, double* v);
-    virtual bool getEncoders(double* encs);
-    virtual bool getEncoderSpeed(int j, double* sp);
-    virtual bool getEncoderSpeeds(double* spds);
-    virtual bool getEncoderAcceleration(int j, double* spds);
-    virtual bool getEncoderAccelerations(double* accs);
+    virtual yarp::dev::ReturnValue getAxes(std::size_t& ax);
+    virtual yarp::dev::ReturnValue resetEncoder(int j);
+    virtual yarp::dev::ReturnValue resetEncoders();
+    virtual yarp::dev::ReturnValue setEncoder(int j, double val);
+    virtual yarp::dev::ReturnValue setEncoders(const double* vals);
+    virtual yarp::dev::ReturnValue getEncoder(int j, double* v);
+    virtual yarp::dev::ReturnValue getEncoders(double* encs);
+    virtual yarp::dev::ReturnValue getEncoderSpeed(int j, double* sp);
+    virtual yarp::dev::ReturnValue getEncoderSpeeds(double* spds);
+    virtual yarp::dev::ReturnValue getEncoderAcceleration(int j, double* spds);
+    virtual yarp::dev::ReturnValue getEncoderAccelerations(double* accs);
 
     // ENCODERS TIMED
-    virtual bool getEncodersTimed(double* encs, double* time);
-    virtual bool getEncoderTimed(int j, double* encs, double* time);
+    virtual yarp::dev::ReturnValue getEncodersTimed(double* encs, double* time);
+    virtual yarp::dev::ReturnValue getEncoderTimed(int j, double* encs, double* time);
 
     // MOTOR ENCODERS
-    virtual bool getNumberOfMotorEncoders(int* num);
-    virtual bool resetMotorEncoder(int m);
-    virtual bool resetMotorEncoders();
-    virtual bool setMotorEncoderCountsPerRevolution(int m, const double cpr);
-    virtual bool getMotorEncoderCountsPerRevolution(int m, double* cpr);
-    virtual bool setMotorEncoder(int m, const double val);
-    virtual bool setMotorEncoders(const double* vals);
-    virtual bool getMotorEncoder(int m, double* v);
-    virtual bool getMotorEncoders(double* encs);
-    virtual bool getMotorEncodersTimed(double* encs, double* time);
-    virtual bool getMotorEncoderTimed(int m, double* encs, double* time);
-    virtual bool getMotorEncoderSpeed(int m, double* sp);
-    virtual bool getMotorEncoderSpeeds(double* spds);
-    virtual bool getMotorEncoderAcceleration(int m, double* acc);
-    virtual bool getMotorEncoderAccelerations(double* accs);
-    virtual bool getTemperatures(double *vals);
-    virtual bool getTemperature(int m, double* val);
-    virtual bool getTemperatureLimit(int m, double* temp);
-    virtual bool setTemperatureLimit(int m, const double temp);
+    virtual yarp::dev::ReturnValue getNumberOfMotorEncoders(int* num);
+    virtual yarp::dev::ReturnValue resetMotorEncoder(int m);
+    virtual yarp::dev::ReturnValue resetMotorEncoders();
+    virtual yarp::dev::ReturnValue setMotorEncoderCountsPerRevolution(int m, const double cpr);
+    virtual yarp::dev::ReturnValue getMotorEncoderCountsPerRevolution(int m, double* cpr);
+    virtual yarp::dev::ReturnValue setMotorEncoder(int m, const double val);
+    virtual yarp::dev::ReturnValue setMotorEncoders(const double* vals);
+    virtual yarp::dev::ReturnValue getMotorEncoder(int m, double* v);
+    virtual yarp::dev::ReturnValue getMotorEncoders(double* encs);
+    virtual yarp::dev::ReturnValue getMotorEncodersTimed(double* encs, double* time);
+    virtual yarp::dev::ReturnValue getMotorEncoderTimed(int m, double* encs, double* time);
+    virtual yarp::dev::ReturnValue getMotorEncoderSpeed(int m, double* sp);
+    virtual yarp::dev::ReturnValue getMotorEncoderSpeeds(double* spds);
+    virtual yarp::dev::ReturnValue getMotorEncoderAcceleration(int m, double* acc);
+    virtual yarp::dev::ReturnValue getMotorEncoderAccelerations(double* accs);
+    virtual yarp::dev::ReturnValue getTemperatures(double *vals);
+    virtual yarp::dev::ReturnValue getTemperature(int m, double* val);
+    virtual yarp::dev::ReturnValue getTemperatureLimit(int m, double* temp);
+    virtual yarp::dev::ReturnValue setTemperatureLimit(int m, const double temp);
 
     // POSITION CONTROL
-    virtual bool positionMove(int j, double ref);
-    virtual bool positionMove(const double* refs);
-    virtual bool relativeMove(int j, double delta);
-    virtual bool relativeMove(const double* deltas);
-    virtual bool checkMotionDone(int j, bool* flag);
-    virtual bool checkMotionDone(bool* flag);
-    virtual bool setRefSpeed(int j, double sp);
-    virtual bool setRefSpeeds(const double* spds);
-    virtual bool setRefAcceleration(int j, double acc);
-    virtual bool setRefAccelerations(const double* accs);
-    virtual bool getRefSpeed(int j, double* ref);
-    virtual bool getRefSpeeds(double* spds);
-    virtual bool getRefAcceleration(int j, double* acc);
-    virtual bool getRefAccelerations(double* accs);
-    virtual bool stop(int j);
-    virtual bool stop();
+    virtual yarp::dev::ReturnValue positionMove(int j, double ref);
+    virtual yarp::dev::ReturnValue positionMove(const double* refs);
+    virtual yarp::dev::ReturnValue relativeMove(int j, double delta);
+    virtual yarp::dev::ReturnValue relativeMove(const double* deltas);
+    virtual yarp::dev::ReturnValue checkMotionDone(int j, bool& flag);
+    virtual yarp::dev::ReturnValue checkMotionDone(bool& flag);
+    virtual yarp::dev::ReturnValue setTrajSpeed(int j, double sp);
+    virtual yarp::dev::ReturnValue setTrajSpeeds(const double* spds);
+    virtual yarp::dev::ReturnValue setTrajAcceleration(int j, double acc);
+    virtual yarp::dev::ReturnValue setTrajAccelerations(const double* accs);
+    virtual yarp::dev::ReturnValue getTrajSpeed(int j, double* ref);
+    virtual yarp::dev::ReturnValue getTrajSpeeds(double* spds);
+    virtual yarp::dev::ReturnValue getTrajAcceleration(int j, double* acc);
+    virtual yarp::dev::ReturnValue getTrajAccelerations(double* accs);
+    virtual yarp::dev::ReturnValue stop(int j);
+    virtual yarp::dev::ReturnValue stop();
 
     // POSITION CONTROL
-    virtual bool positionMove(const int n_joint, const int* joints, const double* refs);
-    virtual bool relativeMove(const int n_joint, const int* joints, const double* deltas);
-    virtual bool checkMotionDone(const int n_joint, const int* joints, bool* flags);
-    virtual bool setRefSpeeds(const int n_joint, const int* joints, const double* spds);
-    virtual bool setRefAccelerations(const int n_joint, const int* joints, const double* accs);
-    virtual bool getRefSpeeds(const int n_joint, const int* joints, double* spds);
-    virtual bool getRefAccelerations(const int n_joint, const int* joints, double* accs);
-    virtual bool stop(const int n_joint, const int* joints);
-    virtual bool getTargetPosition(const int joint, double* ref);
-    virtual bool getTargetPositions(double* refs);
-    virtual bool getTargetPositions(const int n_joint, const int* joints, double* refs);
+    virtual yarp::dev::ReturnValue positionMove(const int n_joint, const int* joints, const double* refs);
+    virtual yarp::dev::ReturnValue relativeMove(const int n_joint, const int* joints, const double* deltas);
+    virtual yarp::dev::ReturnValue checkMotionDone(const std::vector<int>& joints, bool& flag);
+    virtual yarp::dev::ReturnValue setTrajSpeeds(const int n_joint, const int* joints, const double* spds);
+    virtual yarp::dev::ReturnValue setTrajAccelerations(const int n_joint, const int* joints, const double* accs);
+    virtual yarp::dev::ReturnValue getTrajSpeeds(const int n_joint, const int* joints, double* spds);
+    virtual yarp::dev::ReturnValue getTrajAccelerations(const int n_joint, const int* joints, double* accs);
+    virtual yarp::dev::ReturnValue stop(const int n_joint, const int* joints);
+    virtual yarp::dev::ReturnValue getTargetPosition(const int joint, double* ref);
+    virtual yarp::dev::ReturnValue getTargetPositions(double* refs);
+    virtual yarp::dev::ReturnValue getTargetPositions(const int n_joint, const int* joints, double* refs);
 
     // VELOCITY CONTROL
-    virtual bool velocityMove(int j, double sp);
-    virtual bool velocityMove(const double* sp);
+    virtual yarp::dev::ReturnValue velocityMove(int j, double sp);
+    virtual yarp::dev::ReturnValue velocityMove(const double* sp);
 
     // VELOCITY CONTROL
-    virtual bool velocityMove(const int n_joint, const int* joints, const double* spds);
-    virtual bool getRefVelocity(const int joint, double* vel);
-    virtual bool getRefVelocities(double* vels);
-    virtual bool getRefVelocities(const int n_joint, const int* joints, double* vels);
+    virtual yarp::dev::ReturnValue velocityMove(const int n_joint, const int* joints, const double* spds);
+    virtual yarp::dev::ReturnValue getTargetVelocity(const int joint, double* vel);
+    virtual yarp::dev::ReturnValue getTargetVelocities(double* vels);
+    virtual yarp::dev::ReturnValue getTargetVelocities(const int n_joint, const int* joints, double* vels);
 
     // POSITION DIRECT CONTROL
-    virtual bool setPosition(int j, double ref);
-    virtual bool setPositions(const int n_joint, const int* joints, const double* refs);
-    virtual bool setPositions(const double* refs);
-    virtual bool getRefPosition(const int joint, double* ref);
-    virtual bool getRefPositions(double* refs);
-    virtual bool getRefPositions(const int n_joint, const int* joints, double* refs);
+    virtual yarp::dev::ReturnValue setPosition(int j, double ref);
+    virtual yarp::dev::ReturnValue setPositions(const int n_joint, const int* joints, const double* refs);
+    virtual yarp::dev::ReturnValue setPositions(const double* refs);
+    virtual yarp::dev::ReturnValue getRefPosition(const int joint, double* ref);
+    virtual yarp::dev::ReturnValue getRefPositions(double* refs);
+    virtual yarp::dev::ReturnValue getRefPositions(const int n_joint, const int* joints, double* refs);
 
     // CONTROL MODE
-    virtual bool getControlMode(int j, int* mode);
-    virtual bool getControlModes(int* modes);
-
-    // CONTROL MODE
-    virtual bool getControlModes(const int n_joint, const int* joints, int* modes);
-    virtual bool setControlMode(const int j, const int mode);
-    virtual bool setControlModes(const int n_joint, const int* joints, int* modes);
-    virtual bool setControlModes(int* modes);
+    virtual yarp::dev::ReturnValue
+    getAvailableControlModes(int j, std::vector<yarp::dev::SelectableControlModeEnum>& avail);
+    virtual yarp::dev::ReturnValue getControlMode(int j, yarp::dev::ControlModeEnum& mode);
+    virtual yarp::dev::ReturnValue getControlModes(std::vector<yarp::dev::ControlModeEnum>& mode);
+    virtual yarp::dev::ReturnValue
+    getControlModes(const std::vector<int>& joints, std::vector<yarp::dev::ControlModeEnum>& mode);
+    virtual yarp::dev::ReturnValue
+    setControlMode(int j, yarp::dev::SelectableControlModeEnum mode);
+    virtual yarp::dev::ReturnValue setControlModes(
+        const std::vector<int>& joints,
+        const std::vector<yarp::dev::SelectableControlModeEnum>& mode);
+    virtual yarp::dev::ReturnValue
+    setControlModes(const std::vector<yarp::dev::SelectableControlModeEnum>& mode);
 
     // TORQUE CONTROL
-    virtual bool getRefTorques(double* t);
-    virtual bool getRefTorque(int j, double* t);
-    virtual bool setRefTorques(const double* t);
-    virtual bool setRefTorque(int j, double t);
-    virtual bool getTorque(int j, double* t);
-    virtual bool getTorques(double* t);
-    virtual bool getTorqueRange(int j, double* min, double* max);
-    virtual bool getTorqueRanges(double* min, double* max);
+    virtual yarp::dev::ReturnValue getRefTorques(double* t);
+    virtual yarp::dev::ReturnValue getRefTorque(int j, double* t);
+    virtual yarp::dev::ReturnValue setRefTorques(const double* t);
+    virtual yarp::dev::ReturnValue
+    setRefTorques(const int n_joint, const int* joints, const double* t);
+    virtual yarp::dev::ReturnValue setRefTorque(int j, double t);
+    virtual yarp::dev::ReturnValue
+    getMotorTorqueParams(int j, yarp::dev::MotorTorqueParameters* params);
+    virtual yarp::dev::ReturnValue
+    setMotorTorqueParams(int j, const yarp::dev::MotorTorqueParameters params);
+    virtual yarp::dev::ReturnValue getTorque(int j, double* t);
+    virtual yarp::dev::ReturnValue getTorques(double* t);
+    virtual yarp::dev::ReturnValue getTorqueRange(int j, double* min, double* max);
+    virtual yarp::dev::ReturnValue getTorqueRanges(double* min, double* max);
 
     // OPEN LOOP CONTROL
-    virtual bool getNumberOfMotors(int* n);
-    virtual bool setRefDutyCycle(int m, double ref);
-    virtual bool setRefDutyCycles(const double* refs);
-    virtual bool getRefDutyCycle(int m, double* ref);
-    virtual bool getRefDutyCycles(double* refs);
-    virtual bool getDutyCycle(int m, double* val);
-    virtual bool getDutyCycles(double* vals);
+    virtual yarp::dev::ReturnValue getNumberOfMotors(int* n);
+    virtual yarp::dev::ReturnValue setRefDutyCycle(int m, double ref);
+    virtual yarp::dev::ReturnValue setRefDutyCycles(const double* refs);
+    virtual yarp::dev::ReturnValue getRefDutyCycle(int m, double* ref);
+    virtual yarp::dev::ReturnValue getRefDutyCycles(double* refs);
+    virtual yarp::dev::ReturnValue getDutyCycle(int m, double* val);
+    virtual yarp::dev::ReturnValue getDutyCycles(double* vals);
 
     // CURRENT CONTROL
-    virtual bool getCurrent(int m, double* curr);
-    virtual bool getCurrents(double* currs);
-    virtual bool getCurrentRange(int m, double* min, double* max);
-    virtual bool getCurrentRanges(double* min, double* max);
-    virtual bool setRefCurrents(const double* currs);
-    virtual bool setRefCurrent(int m, double curr);
-    virtual bool setRefCurrents(const int n_motor, const int* motors, const double* currs);
-    virtual bool getRefCurrents(double* currs);
-    virtual bool getRefCurrent(int m, double* curr);
+    virtual yarp::dev::ReturnValue getCurrent(int m, double* curr);
+    virtual yarp::dev::ReturnValue getCurrents(double* currs);
+    virtual yarp::dev::ReturnValue getCurrentRange(int m, double* min, double* max);
+    virtual yarp::dev::ReturnValue getCurrentRanges(double* min, double* max);
+    virtual yarp::dev::ReturnValue setRefCurrents(const double* currs);
+    virtual yarp::dev::ReturnValue setRefCurrent(int m, double curr);
+    virtual yarp::dev::ReturnValue setRefCurrents(const int n_motor, const int* motors, const double* currs);
+    virtual yarp::dev::ReturnValue getRefCurrents(double* currs);
+    virtual yarp::dev::ReturnValue getRefCurrent(int m, double* curr);
 
     // AMPLIFIER CONTROL
-    virtual bool enableAmp(int j);
-    virtual bool disableAmp(int j);
-    virtual bool getAmpStatus(int* st);
-    virtual bool getAmpStatus(int j, int* v);
-    virtual bool getMaxCurrent(int j, double* v);
-    virtual bool setMaxCurrent(int j, double v);
-    virtual bool getNominalCurrent(int m, double* val);
-    virtual bool setNominalCurrent(int m, const double val);
-    virtual bool getPeakCurrent(int m, double* val);
-    virtual bool setPeakCurrent(int m, const double val);
-    virtual bool getPWM(int j, double* val);
-    virtual bool getPWMLimit(int j, double* val);
-    virtual bool setPWMLimit(int j, const double val);
-    virtual bool getPowerSupplyVoltage(int j, double* val);
+    virtual yarp::dev::ReturnValue enableAmp(int j);
+    virtual yarp::dev::ReturnValue disableAmp(int j);
+    virtual yarp::dev::ReturnValue getAmpStatus(int* st);
+    virtual yarp::dev::ReturnValue getAmpStatus(int j, int* v);
+    virtual yarp::dev::ReturnValue getMaxCurrent(int j, double* v);
+    virtual yarp::dev::ReturnValue setMaxCurrent(int j, double v);
+    virtual yarp::dev::ReturnValue getNominalCurrent(int m, double* val);
+    virtual yarp::dev::ReturnValue setNominalCurrent(int m, const double val);
+    virtual yarp::dev::ReturnValue getPeakCurrent(int m, double* val);
+    virtual yarp::dev::ReturnValue setPeakCurrent(int m, const double val);
+    virtual yarp::dev::ReturnValue getPWM(int j, double* val);
+    virtual yarp::dev::ReturnValue getPWMLimit(int j, double* val);
+    virtual yarp::dev::ReturnValue setPWMLimit(int j, const double val);
+    virtual yarp::dev::ReturnValue getPowerSupplyVoltage(int j, double* val);
 
     // INTERACTION MODE
-    virtual bool getInteractionMode(int axis, yarp::dev::InteractionModeEnum* mode);
-    virtual bool
-    getInteractionModes(int n_joints, int* joints, yarp::dev::InteractionModeEnum* modes);
-    virtual bool getInteractionModes(yarp::dev::InteractionModeEnum* modes);
-    virtual bool setInteractionMode(int axis, yarp::dev::InteractionModeEnum mode);
-    virtual bool
-    setInteractionModes(int n_joints, int* joints, yarp::dev::InteractionModeEnum* modes);
-    virtual bool setInteractionModes(yarp::dev::InteractionModeEnum* modes);
+    virtual yarp::dev::ReturnValue getInteractionMode(int axis, yarp::dev::InteractionModeEnum& mode);
+    virtual yarp::dev::ReturnValue
+    getInteractionModes(const std::vector<int>& joints, std::vector<yarp::dev::InteractionModeEnum>& modes);
+    virtual yarp::dev::ReturnValue getInteractionModes(std::vector<yarp::dev::InteractionModeEnum>& modes);
+    virtual yarp::dev::ReturnValue setInteractionMode(int axis, yarp::dev::InteractionModeEnum mode);
+    virtual yarp::dev::ReturnValue
+    setInteractionModes(const std::vector<int>& joints, const std::vector<yarp::dev::InteractionModeEnum>& modes);
+    virtual yarp::dev::ReturnValue setInteractionModes(const std::vector<yarp::dev::InteractionModeEnum>& modes);
 
     // PID CONTROL INTERFACE METHODS
-    virtual bool
+    virtual yarp::dev::ReturnValue
+    getAvailablePids(int j, std::vector<yarp::dev::PidControlTypeEnum>& avail);
+    virtual yarp::dev::ReturnValue
     setPid(const yarp::dev::PidControlTypeEnum& pidtype, int j, const yarp::dev::Pid& pid);
-    virtual bool setPids(const yarp::dev::PidControlTypeEnum& pidtype, const yarp::dev::Pid* pids);
-    virtual bool setPidReference(const yarp::dev::PidControlTypeEnum& pidtype, int j, double ref);
-    virtual bool setPidReferences(const yarp::dev::PidControlTypeEnum& pidtype, const double* refs);
-    virtual bool
+    virtual yarp::dev::ReturnValue setPids(const yarp::dev::PidControlTypeEnum& pidtype, const yarp::dev::Pid* pids);
+    virtual yarp::dev::ReturnValue setPidReference(const yarp::dev::PidControlTypeEnum& pidtype, int j, double ref);
+    virtual yarp::dev::ReturnValue setPidReferences(const yarp::dev::PidControlTypeEnum& pidtype, const double* refs);
+    virtual yarp::dev::ReturnValue
     setPidErrorLimit(const yarp::dev::PidControlTypeEnum& pidtype, int j, double limit);
-    virtual bool
+    virtual yarp::dev::ReturnValue
     setPidErrorLimits(const yarp::dev::PidControlTypeEnum& pidtype, const double* limits);
-    virtual bool getPidError(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* err);
-    virtual bool getPidErrors(const yarp::dev::PidControlTypeEnum& pidtype, double* errs);
-    virtual bool getPidOutput(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* out);
-    virtual bool getPidOutputs(const yarp::dev::PidControlTypeEnum& pidtype, double* outs);
-    virtual bool getPid(const yarp::dev::PidControlTypeEnum& pidtype, int j, yarp::dev::Pid* pid);
-    virtual bool getPids(const yarp::dev::PidControlTypeEnum& pidtype, yarp::dev::Pid* pids);
-    virtual bool getPidReference(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* ref);
-    virtual bool getPidReferences(const yarp::dev::PidControlTypeEnum& pidtype, double* refs);
-    virtual bool
+    virtual yarp::dev::ReturnValue getPidError(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* err);
+    virtual yarp::dev::ReturnValue getPidErrors(const yarp::dev::PidControlTypeEnum& pidtype, double* errs);
+    virtual yarp::dev::ReturnValue getPidOutput(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* out);
+    virtual yarp::dev::ReturnValue getPidOutputs(const yarp::dev::PidControlTypeEnum& pidtype, double* outs);
+    virtual yarp::dev::ReturnValue getPid(const yarp::dev::PidControlTypeEnum& pidtype, int j, yarp::dev::Pid* pid);
+    virtual yarp::dev::ReturnValue getPids(const yarp::dev::PidControlTypeEnum& pidtype, yarp::dev::Pid* pids);
+    virtual yarp::dev::ReturnValue
+    getPidExtraInfo(const yarp::dev::PidControlTypeEnum& pidtype, int j, yarp::dev::PidExtraInfo& info);
+    virtual yarp::dev::ReturnValue
+    getPidExtraInfos(const yarp::dev::PidControlTypeEnum& pidtype,
+                     std::vector<yarp::dev::PidExtraInfo>& info);
+    virtual yarp::dev::ReturnValue getPidReference(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* ref);
+    virtual yarp::dev::ReturnValue getPidReferences(const yarp::dev::PidControlTypeEnum& pidtype, double* refs);
+    virtual yarp::dev::ReturnValue
     getPidErrorLimit(const yarp::dev::PidControlTypeEnum& pidtype, int j, double* limit);
-    virtual bool getPidErrorLimits(const yarp::dev::PidControlTypeEnum& pidtype, double* limits);
-    virtual bool resetPid(const yarp::dev::PidControlTypeEnum& pidtype, int j);
-    virtual bool disablePid(const yarp::dev::PidControlTypeEnum& pidtype, int j);
-    virtual bool enablePid(const yarp::dev::PidControlTypeEnum& pidtype, int j);
-    virtual bool setPidOffset(const yarp::dev::PidControlTypeEnum& pidtype, int j, double v);
-    virtual bool isPidEnabled(const yarp::dev::PidControlTypeEnum& pidtype, int j, bool* enabled);
+    virtual yarp::dev::ReturnValue getPidErrorLimits(const yarp::dev::PidControlTypeEnum& pidtype, double* limits);
+    virtual yarp::dev::ReturnValue resetPid(const yarp::dev::PidControlTypeEnum& pidtype, int j);
+    virtual yarp::dev::ReturnValue disablePid(const yarp::dev::PidControlTypeEnum& pidtype, int j);
+    virtual yarp::dev::ReturnValue enablePid(const yarp::dev::PidControlTypeEnum& pidtype, int j);
+    virtual yarp::dev::ReturnValue setPidOffset(const yarp::dev::PidControlTypeEnum& pidtype, int j, double v);
+    virtual yarp::dev::ReturnValue
+    setPidFeedforward(const yarp::dev::PidControlTypeEnum& pidtype, int j, double v);
+    virtual yarp::dev::ReturnValue
+    getPidOffset(const yarp::dev::PidControlTypeEnum& pidtype, int j, double& v);
+    virtual yarp::dev::ReturnValue
+    getPidFeedforward(const yarp::dev::PidControlTypeEnum& pidtype, int j, double& v);
+    virtual yarp::dev::ReturnValue
+    isPidEnabled(const yarp::dev::PidControlTypeEnum& pidtype, int j, bool& enabled);
 
     // AXIS INFO
-    virtual bool getAxisName(int axis, std::string& name);
-    virtual bool getJointType(int axis, yarp::dev::JointTypeEnum& type);
+    virtual yarp::dev::ReturnValue getAxisName(int axis, std::string& name);
+    virtual yarp::dev::ReturnValue getJointType(int axis, yarp::dev::JointTypeEnum& type);
 
     // CONTROL CALIBRATION
-    virtual bool
+    virtual yarp::dev::ReturnValue
     calibrateAxisWithParams(int axis, unsigned int type, double p1, double p2, double p3);
-    virtual bool setCalibrationParameters(int axis, const yarp::dev::CalibrationParameters& params);
-    virtual bool calibrationDone(int j);
-    virtual bool setCalibrator(yarp::dev::ICalibrator* c);
-    virtual bool calibrateRobot();
-    virtual bool park(bool wait = true);
-    virtual bool abortCalibration();
-    virtual bool abortPark();
+    virtual yarp::dev::ReturnValue setCalibrationParameters(int axis, const yarp::dev::CalibrationParameters& params);
+    virtual yarp::dev::ReturnValue calibrationDone(int j);
+    virtual yarp::dev::ReturnValue setCalibrator(yarp::dev::ICalibrator* c);
+    virtual yarp::dev::ReturnValue calibrateRobot();
+    virtual yarp::dev::ReturnValue park(bool wait = true);
+    virtual yarp::dev::ReturnValue abortCalibration();
+    virtual yarp::dev::ReturnValue abortPark();
 
     // CONTROL LIMITS
-    virtual bool setLimits(int axis, double min, double max);
-    virtual bool getLimits(int axis, double* min, double* max);
-    virtual bool setVelLimits(int axis, double min, double max);
-    virtual bool getVelLimits(int axis, double* min, double* max);
+    virtual yarp::dev::ReturnValue setPosLimits(int axis, double min, double max);
+    virtual yarp::dev::ReturnValue getPosLimits(int axis, double* min, double* max);
+    virtual yarp::dev::ReturnValue setVelLimits(int axis, double min, double max);
+    virtual yarp::dev::ReturnValue getVelLimits(int axis, double* min, double* max);
 };
 
 #endif /* CODYCO_PASS_THROUGHT_CONTROL_BOARD_H */
-

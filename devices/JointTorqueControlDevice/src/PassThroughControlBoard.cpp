@@ -112,1460 +112,1574 @@ bool PassThroughControlBoard::detachAll()
     return true;
 }
 
-bool PassThroughControlBoard::getLastJointFault(int j, int& fault, std::string& message)
+ReturnValue PassThroughControlBoard::getLastJointFault(int j, int& fault, std::string& message)
 {
     if (!proxyIJointFault)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIJointFault->getLastJointFault(j, fault, message);
 }
 
 // ENCODERS
-bool PassThroughControlBoard::getAxes(int* ax)
+ReturnValue PassThroughControlBoard::getAxes(std::size_t& ax)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getAxes(ax);
 }
 
-bool PassThroughControlBoard::resetEncoder(int j)
+ReturnValue PassThroughControlBoard::resetEncoder(int j)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->resetEncoder(j);
 }
 
-bool PassThroughControlBoard::resetEncoders()
+ReturnValue PassThroughControlBoard::resetEncoders()
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->resetEncoders();
 }
 
-bool PassThroughControlBoard::setEncoder(int j, double val)
+ReturnValue PassThroughControlBoard::setEncoder(int j, double val)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->setEncoder(j, val);
 }
 
-bool PassThroughControlBoard::setEncoders(const double* vals)
+ReturnValue PassThroughControlBoard::setEncoders(const double* vals)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->setEncoders(vals);
 }
 
-bool PassThroughControlBoard::getEncoder(int j, double* v)
+ReturnValue PassThroughControlBoard::getEncoder(int j, double* v)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoder(j, v);
 }
 
-bool PassThroughControlBoard::getEncoders(double* encs)
+ReturnValue PassThroughControlBoard::getEncoders(double* encs)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoders(encs);
 }
 
-bool PassThroughControlBoard::getEncoderSpeed(int j, double* sp)
+ReturnValue PassThroughControlBoard::getEncoderSpeed(int j, double* sp)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoderSpeed(j, sp);
 }
 
-bool PassThroughControlBoard::getEncoderSpeeds(double* spds)
+ReturnValue PassThroughControlBoard::getEncoderSpeeds(double* spds)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoderSpeeds(spds);
 }
 
-bool PassThroughControlBoard::getEncoderAcceleration(int j, double* spds)
+ReturnValue PassThroughControlBoard::getEncoderAcceleration(int j, double* spds)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoderAcceleration(j, spds);
 }
 
-bool PassThroughControlBoard::getEncoderAccelerations(double* accs)
+ReturnValue PassThroughControlBoard::getEncoderAccelerations(double* accs)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoderAccelerations(accs);
 }
 
 // ENCODERS TIMED
-bool PassThroughControlBoard::getEncodersTimed(double* encs, double* time)
+ReturnValue PassThroughControlBoard::getEncodersTimed(double* encs, double* time)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncodersTimed(encs, time);
 }
 
-bool PassThroughControlBoard::getEncoderTimed(int j, double* encs, double* time)
+ReturnValue PassThroughControlBoard::getEncoderTimed(int j, double* encs, double* time)
 {
     if (!proxyIEncodersTimed)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIEncodersTimed->getEncoderTimed(j, encs, time);
 }
 
 // MOTOR ENCODERS
-bool PassThroughControlBoard::getNumberOfMotorEncoders(int* num)
+ReturnValue PassThroughControlBoard::getNumberOfMotorEncoders(int* num)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getNumberOfMotorEncoders(num);
 }
 
-bool PassThroughControlBoard::resetMotorEncoder(int m)
+ReturnValue PassThroughControlBoard::resetMotorEncoder(int m)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->resetMotorEncoder(m);
 }
 
-bool PassThroughControlBoard::resetMotorEncoders()
+ReturnValue PassThroughControlBoard::resetMotorEncoders()
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->resetMotorEncoders();
 }
 
-bool PassThroughControlBoard::setMotorEncoderCountsPerRevolution(int m, const double cpr)
+ReturnValue PassThroughControlBoard::setMotorEncoderCountsPerRevolution(int m, const double cpr)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->setMotorEncoderCountsPerRevolution(m, cpr);
 }
 
-bool PassThroughControlBoard::getMotorEncoderCountsPerRevolution(int m, double* cpr)
+ReturnValue PassThroughControlBoard::getMotorEncoderCountsPerRevolution(int m, double* cpr)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoderCountsPerRevolution(m, cpr);
 }
 
-bool PassThroughControlBoard::setMotorEncoder(int m, const double val)
+ReturnValue PassThroughControlBoard::setMotorEncoder(int m, const double val)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->setMotorEncoder(m, val);
 }
 
-bool PassThroughControlBoard::setMotorEncoders(const double* vals)
+ReturnValue PassThroughControlBoard::setMotorEncoders(const double* vals)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->setMotorEncoders(vals);
 }
 
-bool PassThroughControlBoard::getMotorEncoder(int m, double* v)
+ReturnValue PassThroughControlBoard::getMotorEncoder(int m, double* v)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoder(m, v);
 }
 
-bool PassThroughControlBoard::getMotorEncoders(double* encs)
+ReturnValue PassThroughControlBoard::getMotorEncoders(double* encs)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoders(encs);
 }
 
-bool PassThroughControlBoard::getMotorEncodersTimed(double* encs, double* time)
+ReturnValue PassThroughControlBoard::getMotorEncodersTimed(double* encs, double* time)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncodersTimed(encs, time);
 }
 
-bool PassThroughControlBoard::getMotorEncoderTimed(int m, double* encs, double* time)
+ReturnValue PassThroughControlBoard::getMotorEncoderTimed(int m, double* encs, double* time)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoderTimed(m, encs, time);
 }
 
-bool PassThroughControlBoard::getMotorEncoderSpeed(int m, double* sp)
+ReturnValue PassThroughControlBoard::getMotorEncoderSpeed(int m, double* sp)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoderSpeed(m, sp);
 }
 
-bool PassThroughControlBoard::getMotorEncoderSpeeds(double* spds)
+ReturnValue PassThroughControlBoard::getMotorEncoderSpeeds(double* spds)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoderSpeeds(spds);
 }
 
-bool PassThroughControlBoard::getTemperatures(double *vals)
+ReturnValue PassThroughControlBoard::getTemperatures(double *vals)
 {
     if (!proxyIMotor)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotor->getTemperatures(vals);
 }
 
-bool PassThroughControlBoard::getTemperature(int m, double* val)
+ReturnValue PassThroughControlBoard::getTemperature(int m, double* val)
 {
     if (!proxyIMotor)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotor->getTemperature(m, val);
 }
 
-bool PassThroughControlBoard::getTemperatureLimit(int m, double* temp)
+ReturnValue PassThroughControlBoard::getTemperatureLimit(int m, double* temp)
 {
     if (!proxyIMotor)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotor->getTemperatureLimit(m, temp);
 }
 
-bool PassThroughControlBoard::setTemperatureLimit(int m, const double temp)
+ReturnValue PassThroughControlBoard::setTemperatureLimit(int m, const double temp)
 {
     if (!proxyIMotor)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotor->setTemperatureLimit(m, temp);
 }
-bool PassThroughControlBoard::getMotorEncoderAcceleration(int m, double* acc)
+ReturnValue PassThroughControlBoard::getMotorEncoderAcceleration(int m, double* acc)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoderAcceleration(m, acc);
 }
 
-bool PassThroughControlBoard::getMotorEncoderAccelerations(double* accs)
+ReturnValue PassThroughControlBoard::getMotorEncoderAccelerations(double* accs)
 {
     if (!proxyIMotorEncoders)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotorEncoders->getMotorEncoderAccelerations(accs);
 }
 
 // POSITION CONTROL
-bool PassThroughControlBoard::positionMove(int j, double ref)
+ReturnValue PassThroughControlBoard::positionMove(int j, double ref)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->positionMove(j, ref);
 }
 
-bool PassThroughControlBoard::positionMove(const double* refs)
+ReturnValue PassThroughControlBoard::positionMove(const double* refs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->positionMove(refs);
 }
 
-bool PassThroughControlBoard::relativeMove(int j, double delta)
+ReturnValue PassThroughControlBoard::relativeMove(int j, double delta)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->relativeMove(j, delta);
 }
 
-bool PassThroughControlBoard::relativeMove(const double* deltas)
+ReturnValue PassThroughControlBoard::relativeMove(const double* deltas)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->relativeMove(deltas);
 }
 
-bool PassThroughControlBoard::checkMotionDone(int j, bool* flag)
+ReturnValue PassThroughControlBoard::checkMotionDone(int j, bool& flag)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->checkMotionDone(j, flag);
 }
 
-bool PassThroughControlBoard::checkMotionDone(bool* flag)
+ReturnValue PassThroughControlBoard::checkMotionDone(bool& flag)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->checkMotionDone(flag);
 }
 
-bool PassThroughControlBoard::setRefSpeed(int j, double sp)
+ReturnValue PassThroughControlBoard::setTrajSpeed(int j, double sp)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->setRefSpeed(j, sp);
+    return proxyIPositionControl->setTrajSpeed(j, sp);
 }
 
-bool PassThroughControlBoard::setRefSpeeds(const double* spds)
+ReturnValue PassThroughControlBoard::setTrajSpeeds(const double* spds)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->setRefSpeeds(spds);
+    return proxyIPositionControl->setTrajSpeeds(spds);
 }
 
-bool PassThroughControlBoard::setRefAcceleration(int j, double acc)
+ReturnValue PassThroughControlBoard::setTrajAcceleration(int j, double acc)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->setRefAcceleration(j, acc);
+    return proxyIPositionControl->setTrajAcceleration(j, acc);
 }
 
-bool PassThroughControlBoard::setRefAccelerations(const double* accs)
+ReturnValue PassThroughControlBoard::setTrajAccelerations(const double* accs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->setRefAccelerations(accs);
+    return proxyIPositionControl->setTrajAccelerations(accs);
 }
 
-bool PassThroughControlBoard::getRefSpeed(int j, double* ref)
+ReturnValue PassThroughControlBoard::getTrajSpeed(int j, double* ref)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->getRefSpeed(j, ref);
+    return proxyIPositionControl->getTrajSpeed(j, ref);
 }
 
-bool PassThroughControlBoard::getRefSpeeds(double* spds)
+ReturnValue PassThroughControlBoard::getTrajSpeeds(double* spds)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->getRefSpeeds(spds);
+    return proxyIPositionControl->getTrajSpeeds(spds);
 }
 
-bool PassThroughControlBoard::getRefAcceleration(int j, double* acc)
+ReturnValue PassThroughControlBoard::getTrajAcceleration(int j, double* acc)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->getRefAcceleration(j, acc);
+    return proxyIPositionControl->getTrajAcceleration(j, acc);
 }
 
-bool PassThroughControlBoard::getRefAccelerations(double* accs)
+ReturnValue PassThroughControlBoard::getTrajAccelerations(double* accs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->getRefAccelerations(accs);
+    return proxyIPositionControl->getTrajAccelerations(accs);
 }
 
-bool PassThroughControlBoard::stop(int j)
+ReturnValue PassThroughControlBoard::stop(int j)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->stop(j);
 }
 
-bool PassThroughControlBoard::stop()
+ReturnValue PassThroughControlBoard::stop()
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->stop();
 }
 
 // POSITION CONTROL
-bool PassThroughControlBoard::positionMove(const int n_joint, const int* joints, const double* refs)
+ReturnValue PassThroughControlBoard::positionMove(const int n_joint, const int* joints, const double* refs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->positionMove(n_joint, joints, refs);
 }
 
-bool PassThroughControlBoard::relativeMove(const int n_joint,
+ReturnValue PassThroughControlBoard::relativeMove(const int n_joint,
                                            const int* joints,
                                            const double* deltas)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->relativeMove(n_joint, joints, deltas);
 }
 
-bool PassThroughControlBoard::checkMotionDone(const int n_joint, const int* joints, bool* flags)
+ReturnValue PassThroughControlBoard::checkMotionDone(const std::vector<int>& joints, bool& flag)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->checkMotionDone(n_joint, joints, flags);
+    return proxyIPositionControl->checkMotionDone(joints, flag);
 }
 
-bool PassThroughControlBoard::setRefSpeeds(const int n_joint, const int* joints, const double* spds)
+ReturnValue PassThroughControlBoard::setTrajSpeeds(const int n_joint, const int* joints, const double* spds)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->setRefSpeeds(n_joint, joints, spds);
+    return proxyIPositionControl->setTrajSpeeds(n_joint, joints, spds);
 }
 
-bool PassThroughControlBoard::setRefAccelerations(const int n_joint,
+ReturnValue PassThroughControlBoard::setTrajAccelerations(const int n_joint,
                                                   const int* joints,
                                                   const double* accs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->setRefAccelerations(n_joint, joints, accs);
+    return proxyIPositionControl->setTrajAccelerations(n_joint, joints, accs);
 }
 
-bool PassThroughControlBoard::getRefSpeeds(const int n_joint, const int* joints, double* spds)
+ReturnValue PassThroughControlBoard::getTrajSpeeds(const int n_joint, const int* joints, double* spds)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->getRefSpeeds(n_joint, joints, spds);
+    return proxyIPositionControl->getTrajSpeeds(n_joint, joints, spds);
 }
 
-bool PassThroughControlBoard::getRefAccelerations(const int n_joint,
+ReturnValue PassThroughControlBoard::getTrajAccelerations(const int n_joint,
                                                   const int* joints,
                                                   double* accs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIPositionControl->getRefAccelerations(n_joint, joints, accs);
+    return proxyIPositionControl->getTrajAccelerations(n_joint, joints, accs);
 }
 
-bool PassThroughControlBoard::stop(const int n_joint, const int* joints)
+ReturnValue PassThroughControlBoard::stop(const int n_joint, const int* joints)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->stop(n_joint, joints);
 }
 
-bool PassThroughControlBoard::getTargetPosition(const int joint, double* ref)
+ReturnValue PassThroughControlBoard::getTargetPosition(const int joint, double* ref)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->getTargetPosition(joint, ref);
 }
 
-bool PassThroughControlBoard::getTargetPositions(double* refs)
+ReturnValue PassThroughControlBoard::getTargetPositions(double* refs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->getTargetPositions(refs);
 }
 
-bool PassThroughControlBoard::getTargetPositions(const int n_joint, const int* joints, double* refs)
+ReturnValue PassThroughControlBoard::getTargetPositions(const int n_joint, const int* joints, double* refs)
 {
     if (!proxyIPositionControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionControl->getTargetPositions(n_joint, joints, refs);
 }
 
 // VELOCITY CONTROL
-bool PassThroughControlBoard::velocityMove(int j, double sp)
+ReturnValue PassThroughControlBoard::velocityMove(int j, double sp)
 {
     if (!proxyIVelocityControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIVelocityControl->velocityMove(j, sp);
 }
 
-bool PassThroughControlBoard::velocityMove(const double* sp)
+ReturnValue PassThroughControlBoard::velocityMove(const double* sp)
 {
     if (!proxyIVelocityControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIVelocityControl->velocityMove(sp);
 }
 
 // VELOCITY CONTROL
-bool PassThroughControlBoard::velocityMove(const int n_joint, const int* joints, const double* spds)
+ReturnValue PassThroughControlBoard::velocityMove(const int n_joint, const int* joints, const double* spds)
 {
     if (!proxyIVelocityControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIVelocityControl->velocityMove(n_joint, joints, spds);
 }
 
-bool PassThroughControlBoard::getRefVelocity(const int joint, double* vel)
+ReturnValue PassThroughControlBoard::getTargetVelocity(const int joint, double* vel)
 {
     if (!proxyIVelocityControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIVelocityControl->getRefVelocity(joint, vel);
+    return proxyIVelocityControl->getTargetVelocity(joint, vel);
 }
 
-bool PassThroughControlBoard::getRefVelocities(double* vels)
+ReturnValue PassThroughControlBoard::getTargetVelocities(double* vels)
 {
     if (!proxyIVelocityControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIVelocityControl->getRefVelocities(vels);
+    return proxyIVelocityControl->getTargetVelocities(vels);
 }
 
-bool PassThroughControlBoard::getRefVelocities(const int n_joint, const int* joints, double* vels)
+ReturnValue PassThroughControlBoard::getTargetVelocities(const int n_joint, const int* joints, double* vels)
 {
     if (!proxyIVelocityControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIVelocityControl->getRefVelocities(n_joint, joints, vels);
+    return proxyIVelocityControl->getTargetVelocities(n_joint, joints, vels);
 }
 
 // POSITION DIRECT CONTROL
-bool PassThroughControlBoard::setPosition(int j, double ref)
+ReturnValue PassThroughControlBoard::setPosition(int j, double ref)
 {
     if (!proxyIPositionDirect)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionDirect->setPosition(j, ref);
 }
 
-bool PassThroughControlBoard::setPositions(const int n_joint, const int* joints, const double* refs)
+ReturnValue PassThroughControlBoard::setPositions(const int n_joint, const int* joints, const double* refs)
 {
     if (!proxyIPositionDirect)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionDirect->setPositions(n_joint, joints, refs);
 }
 
-bool PassThroughControlBoard::setPositions(const double* refs)
+ReturnValue PassThroughControlBoard::setPositions(const double* refs)
 {
     if (!proxyIPositionDirect)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionDirect->setPositions(refs);
 }
 
-bool PassThroughControlBoard::getRefPosition(const int joint, double* ref)
+ReturnValue PassThroughControlBoard::getRefPosition(const int joint, double* ref)
 {
     if (!proxyIPositionDirect)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionDirect->getRefPosition(joint, ref);
 }
 
-bool PassThroughControlBoard::getRefPositions(double* refs)
+ReturnValue PassThroughControlBoard::getRefPositions(double* refs)
 {
     if (!proxyIPositionDirect)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionDirect->getRefPositions(refs);
 }
 
-bool PassThroughControlBoard::getRefPositions(const int n_joint, const int* joints, double* refs)
+ReturnValue PassThroughControlBoard::getRefPositions(const int n_joint, const int* joints, double* refs)
 {
     if (!proxyIPositionDirect)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPositionDirect->getRefPositions(n_joint, joints, refs);
 }
 
 // CONTROL MODE
-bool PassThroughControlBoard::getControlMode(int j, int* mode)
+ReturnValue PassThroughControlBoard::getAvailableControlModes(
+    int j,
+    std::vector<SelectableControlModeEnum>& avail)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIControlMode->getAvailableControlModes(j, avail);
+}
+
+ReturnValue PassThroughControlBoard::getControlMode(int j, ControlModeEnum& mode)
+{
+    if (!proxyIControlMode)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlMode->getControlMode(j, mode);
 }
 
-bool PassThroughControlBoard::getControlModes(int* modes)
+ReturnValue PassThroughControlBoard::getControlModes(std::vector<ControlModeEnum>& mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIControlMode->getControlModes(modes);
+    return proxyIControlMode->getControlModes(mode);
 }
 
-// CONTROL MODE
-bool PassThroughControlBoard::getControlModes(const int n_joint, const int* joints, int* modes)
+ReturnValue PassThroughControlBoard::getControlModes(const std::vector<int>& joints,
+                                                     std::vector<ControlModeEnum>& mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIControlMode->getControlModes(n_joint, joints, modes);
+    return proxyIControlMode->getControlModes(joints, mode);
 }
 
-bool PassThroughControlBoard::setControlMode(const int j, const int mode)
+ReturnValue PassThroughControlBoard::setControlMode(int j, SelectableControlModeEnum mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlMode->setControlMode(j, mode);
 }
 
-bool PassThroughControlBoard::setControlModes(const int n_joint, const int* joints, int* modes)
+ReturnValue PassThroughControlBoard::setControlModes(const std::vector<int>& joints,
+                                                     const std::vector<SelectableControlModeEnum>& mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIControlMode->setControlModes(n_joint, joints, modes);
+    return proxyIControlMode->setControlModes(joints, mode);
 }
 
-bool PassThroughControlBoard::setControlModes(int* modes)
+ReturnValue PassThroughControlBoard::setControlModes(const std::vector<SelectableControlModeEnum>& mode)
 {
     if (!proxyIControlMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIControlMode->setControlModes(modes);
+    return proxyIControlMode->setControlModes(mode);
 }
 
 // TORQUE CONTROL
-bool PassThroughControlBoard::getRefTorques(double* t)
+ReturnValue PassThroughControlBoard::getRefTorques(double* t)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->getRefTorques(t);
 }
 
-bool PassThroughControlBoard::getRefTorque(int j, double* t)
+ReturnValue PassThroughControlBoard::getRefTorque(int j, double* t)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->getRefTorque(j, t);
 }
 
-bool PassThroughControlBoard::setRefTorques(const double* t)
+ReturnValue PassThroughControlBoard::setRefTorques(const double* t)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->setRefTorques(t);
 }
 
-bool PassThroughControlBoard::setRefTorque(int j, double t)
+ReturnValue PassThroughControlBoard::setRefTorques(const int n_joint,
+                                                   const int* joints,
+                                                   const double* t)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyITorqueControl->setRefTorques(n_joint, joints, t);
+}
+
+ReturnValue PassThroughControlBoard::setRefTorque(int j, double t)
+{
+    if (!proxyITorqueControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->setRefTorque(j, t);
 }
 
-bool PassThroughControlBoard::getTorque(int j, double* t)
+ReturnValue PassThroughControlBoard::getMotorTorqueParams(int j, MotorTorqueParameters* params)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyITorqueControl->getMotorTorqueParams(j, params);
+}
+
+ReturnValue PassThroughControlBoard::setMotorTorqueParams(int j,
+                                                          const MotorTorqueParameters params)
+{
+    if (!proxyITorqueControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyITorqueControl->setMotorTorqueParams(j, params);
+}
+
+ReturnValue PassThroughControlBoard::getTorque(int j, double* t)
+{
+    if (!proxyITorqueControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->getTorque(j, t);
 }
 
-bool PassThroughControlBoard::getTorques(double* t)
+ReturnValue PassThroughControlBoard::getTorques(double* t)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->getTorques(t);
 }
 
-bool PassThroughControlBoard::getTorqueRange(int j, double* min, double* max)
+ReturnValue PassThroughControlBoard::getTorqueRange(int j, double* min, double* max)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->getTorqueRange(j, min, max);
 }
 
-bool PassThroughControlBoard::getTorqueRanges(double* min, double* max)
+ReturnValue PassThroughControlBoard::getTorqueRanges(double* min, double* max)
 {
     if (!proxyITorqueControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyITorqueControl->getTorqueRanges(min, max);
 }
 
 // OPEN LOOP
-bool PassThroughControlBoard::getNumberOfMotors(int* n)
+ReturnValue PassThroughControlBoard::getNumberOfMotors(int* n)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->getNumberOfMotors(n);
 }
 
-bool PassThroughControlBoard::setRefDutyCycle(int m, double ref)
+ReturnValue PassThroughControlBoard::setRefDutyCycle(int m, double ref)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->setRefDutyCycle(m, ref);
 }
 
-bool PassThroughControlBoard::setRefDutyCycles(const double* refs)
+ReturnValue PassThroughControlBoard::setRefDutyCycles(const double* refs)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->setRefDutyCycles(refs);
 }
 
-bool PassThroughControlBoard::getRefDutyCycle(int m, double* ref)
+ReturnValue PassThroughControlBoard::getRefDutyCycle(int m, double* ref)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->getRefDutyCycle(m, ref);
 }
 
-bool PassThroughControlBoard::getRefDutyCycles(double* refs)
+ReturnValue PassThroughControlBoard::getRefDutyCycles(double* refs)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->getRefDutyCycles(refs);
 }
 
-bool PassThroughControlBoard::getDutyCycle(int m, double* val)
+ReturnValue PassThroughControlBoard::getDutyCycle(int m, double* val)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->getDutyCycle(m, val);
 }
 
-bool PassThroughControlBoard::getDutyCycles(double* vals)
+ReturnValue PassThroughControlBoard::getDutyCycles(double* vals)
 {
     if (!proxyIOpenLoopControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIOpenLoopControl->getDutyCycles(vals);
 }
 
 // CURRENT CONTROL
-bool PassThroughControlBoard::getCurrent(int m, double* curr)
+ReturnValue PassThroughControlBoard::getCurrent(int m, double* curr)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->getCurrent(m, curr);
 }
 
-bool PassThroughControlBoard::getCurrents(double* currs)
+ReturnValue PassThroughControlBoard::getCurrents(double* currs)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->getCurrents(currs);
 }
 
-bool PassThroughControlBoard::getCurrentRange(int m, double* min, double* max)
+ReturnValue PassThroughControlBoard::getCurrentRange(int m, double* min, double* max)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->getCurrentRange(m, min, max);
 }
 
-bool PassThroughControlBoard::getCurrentRanges(double* min, double* max)
+ReturnValue PassThroughControlBoard::getCurrentRanges(double* min, double* max)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->getCurrentRanges(min, max);
 }
 
-bool PassThroughControlBoard::getGearboxRatio(int m, double *val)
+ReturnValue PassThroughControlBoard::getGearboxRatio(int m, double *val)
 {
     if (!proxyIMotor)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIMotor->getGearboxRatio(m, val);
 }
 
-bool PassThroughControlBoard::getRefCurrents(double* currs)
+ReturnValue PassThroughControlBoard::setGearboxRatio(int m, const double val)
+{
+    if (!proxyIMotor)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIMotor->setGearboxRatio(m, val);
+}
+
+ReturnValue PassThroughControlBoard::getRefCurrents(double* currs)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->getRefCurrents(currs);
 }
 
-bool PassThroughControlBoard::setRefCurrent(int m, double curr)
+ReturnValue PassThroughControlBoard::setRefCurrent(int m, double curr)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->setRefCurrent(m, curr);
 }
 
-bool PassThroughControlBoard::setRefCurrents(const int n_motor,
+ReturnValue PassThroughControlBoard::setRefCurrents(const int n_motor,
                                              const int* motors,
                                              const double* currs)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->setRefCurrents(n_motor, motors, currs);
 }
 
-bool PassThroughControlBoard::setRefCurrents(const double* currs)
+ReturnValue PassThroughControlBoard::setRefCurrents(const double* currs)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->setRefCurrents(currs);
 }
 
-bool PassThroughControlBoard::getRefCurrent(int m, double* curr)
+ReturnValue PassThroughControlBoard::getRefCurrent(int m, double* curr)
 {
     if (!proxyICurrentControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyICurrentControl->getRefCurrent(m, curr);
 }
 
 // INTERACTION MODE
-bool PassThroughControlBoard::getInteractionMode(int axis, yarp::dev::InteractionModeEnum* mode)
+ReturnValue PassThroughControlBoard::getInteractionMode(int axis, yarp::dev::InteractionModeEnum& mode)
 {
     if (!proxyIInteractionMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIInteractionMode->getInteractionMode(axis, mode);
 }
 
-bool PassThroughControlBoard::getInteractionModes(int n_joints,
-                                                  int* joints,
-                                                  yarp::dev::InteractionModeEnum* modes)
+ReturnValue PassThroughControlBoard::getInteractionModes(const std::vector<int>& joints,
+                                                  std::vector<yarp::dev::InteractionModeEnum>& modes)
 {
     if (!proxyIInteractionMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIInteractionMode->getInteractionModes(n_joints, joints, modes);
+    return proxyIInteractionMode->getInteractionModes(joints, modes);
 }
 
-bool PassThroughControlBoard::getInteractionModes(yarp::dev::InteractionModeEnum* modes)
+ReturnValue PassThroughControlBoard::getInteractionModes(std::vector<yarp::dev::InteractionModeEnum>& modes)
 {
     if (!proxyIInteractionMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIInteractionMode->getInteractionModes(modes);
 }
 
-bool PassThroughControlBoard::setInteractionMode(int axis, yarp::dev::InteractionModeEnum mode)
+ReturnValue PassThroughControlBoard::setInteractionMode(int axis, yarp::dev::InteractionModeEnum mode)
 {
     if (!proxyIInteractionMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIInteractionMode->setInteractionMode(axis, mode);
 }
 
-bool PassThroughControlBoard::setInteractionModes(int n_joints,
-                                                  int* joints,
-                                                  yarp::dev::InteractionModeEnum* modes)
+ReturnValue PassThroughControlBoard::setInteractionModes(const std::vector<int>& joints,
+                                                  const std::vector<yarp::dev::InteractionModeEnum>& modes)
 {
     if (!proxyIInteractionMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIInteractionMode->setInteractionModes(n_joints, joints, modes);
+    return proxyIInteractionMode->setInteractionModes(joints, modes);
 }
 
-bool PassThroughControlBoard::setInteractionModes(yarp::dev::InteractionModeEnum* modes)
+ReturnValue PassThroughControlBoard::setInteractionModes(const std::vector<yarp::dev::InteractionModeEnum>& modes)
 {
     if (!proxyIInteractionMode)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIInteractionMode->setInteractionModes(modes);
 }
 
 // PID CONTROL INTERFACE METHODS
-bool PassThroughControlBoard::setPid(const PidControlTypeEnum& pidtype, int j, const Pid& pid)
+ReturnValue PassThroughControlBoard::getAvailablePids(int j,
+                                                      std::vector<PidControlTypeEnum>& avail)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIPidControl->getAvailablePids(j, avail);
+}
+
+ReturnValue PassThroughControlBoard::setPid(const PidControlTypeEnum& pidtype, int j, const Pid& pid)
+{
+    if (!proxyIPidControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPid(pidtype, j, pid);
 }
 
-bool PassThroughControlBoard::setPids(const PidControlTypeEnum& pidtype, const Pid* pids)
+ReturnValue PassThroughControlBoard::setPids(const PidControlTypeEnum& pidtype, const Pid* pids)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPids(pidtype, pids);
 }
 
-bool PassThroughControlBoard::setPidReference(const PidControlTypeEnum& pidtype, int j, double ref)
+ReturnValue PassThroughControlBoard::setPidReference(const PidControlTypeEnum& pidtype, int j, double ref)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPidReference(pidtype, j, ref);
 }
 
-bool PassThroughControlBoard::setPidReferences(const PidControlTypeEnum& pidtype,
+ReturnValue PassThroughControlBoard::setPidReferences(const PidControlTypeEnum& pidtype,
                                                const double* refs)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPidReferences(pidtype, refs);
 }
 
-bool PassThroughControlBoard::setPidErrorLimit(const PidControlTypeEnum& pidtype,
+ReturnValue PassThroughControlBoard::setPidErrorLimit(const PidControlTypeEnum& pidtype,
                                                int j,
                                                double limit)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPidErrorLimit(pidtype, j, limit);
 }
 
-bool PassThroughControlBoard::setPidErrorLimits(const PidControlTypeEnum& pidtype,
+ReturnValue PassThroughControlBoard::setPidErrorLimits(const PidControlTypeEnum& pidtype,
                                                 const double* limits)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPidErrorLimits(pidtype, limits);
 }
 
-bool PassThroughControlBoard::getPidError(const PidControlTypeEnum& pidtype, int j, double* err)
+ReturnValue PassThroughControlBoard::getPidError(const PidControlTypeEnum& pidtype, int j, double* err)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidError(pidtype, j, err);
 }
 
-bool PassThroughControlBoard::getPidErrors(const PidControlTypeEnum& pidtype, double* errs)
+ReturnValue PassThroughControlBoard::getPidErrors(const PidControlTypeEnum& pidtype, double* errs)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidErrors(pidtype, errs);
 }
 
-bool PassThroughControlBoard::getPidOutput(const PidControlTypeEnum& pidtype, int j, double* out)
+ReturnValue PassThroughControlBoard::getPidOutput(const PidControlTypeEnum& pidtype, int j, double* out)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidOutput(pidtype, j, out);
 }
 
-bool PassThroughControlBoard::getPidOutputs(const PidControlTypeEnum& pidtype, double* outs)
+ReturnValue PassThroughControlBoard::getPidOutputs(const PidControlTypeEnum& pidtype, double* outs)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidOutputs(pidtype, outs);
 }
 
-bool PassThroughControlBoard::getPid(const PidControlTypeEnum& pidtype, int j, Pid* pid)
+ReturnValue PassThroughControlBoard::getPid(const PidControlTypeEnum& pidtype, int j, Pid* pid)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPid(pidtype, j, pid);
 }
 
-bool PassThroughControlBoard::getPids(const PidControlTypeEnum& pidtype, Pid* pids)
+ReturnValue PassThroughControlBoard::getPids(const PidControlTypeEnum& pidtype, Pid* pids)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPids(pidtype, pids);
 }
 
-bool PassThroughControlBoard::getPidReference(const PidControlTypeEnum& pidtype, int j, double* ref)
+ReturnValue PassThroughControlBoard::getPidExtraInfo(const PidControlTypeEnum& pidtype,
+                                                     int j,
+                                                     PidExtraInfo& info)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIPidControl->getPidExtraInfo(pidtype, j, info);
+}
+
+ReturnValue PassThroughControlBoard::getPidExtraInfos(const PidControlTypeEnum& pidtype,
+                                                      std::vector<PidExtraInfo>& info)
+{
+    if (!proxyIPidControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIPidControl->getPidExtraInfos(pidtype, info);
+}
+
+ReturnValue PassThroughControlBoard::getPidReference(const PidControlTypeEnum& pidtype, int j, double* ref)
+{
+    if (!proxyIPidControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidReference(pidtype, j, ref);
 }
 
-bool PassThroughControlBoard::getPidReferences(const PidControlTypeEnum& pidtype, double* refs)
+ReturnValue PassThroughControlBoard::getPidReferences(const PidControlTypeEnum& pidtype, double* refs)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidReferences(pidtype, refs);
 }
 
-bool PassThroughControlBoard::getPidErrorLimit(const PidControlTypeEnum& pidtype,
+ReturnValue PassThroughControlBoard::getPidErrorLimit(const PidControlTypeEnum& pidtype,
                                                int j,
                                                double* limit)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidErrorLimit(pidtype, j, limit);
 }
 
-bool PassThroughControlBoard::getPidErrorLimits(const PidControlTypeEnum& pidtype, double* limits)
+ReturnValue PassThroughControlBoard::getPidErrorLimits(const PidControlTypeEnum& pidtype, double* limits)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->getPidErrorLimits(pidtype, limits);
 }
 
-bool PassThroughControlBoard::resetPid(const PidControlTypeEnum& pidtype, int j)
+ReturnValue PassThroughControlBoard::resetPid(const PidControlTypeEnum& pidtype, int j)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->resetPid(pidtype, j);
 }
 
-bool PassThroughControlBoard::disablePid(const PidControlTypeEnum& pidtype, int j)
+ReturnValue PassThroughControlBoard::disablePid(const PidControlTypeEnum& pidtype, int j)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->disablePid(pidtype, j);
 }
 
-bool PassThroughControlBoard::enablePid(const PidControlTypeEnum& pidtype, int j)
+ReturnValue PassThroughControlBoard::enablePid(const PidControlTypeEnum& pidtype, int j)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->enablePid(pidtype, j);
 }
 
-bool PassThroughControlBoard::setPidOffset(const PidControlTypeEnum& pidtype, int j, double v)
+ReturnValue PassThroughControlBoard::setPidOffset(const PidControlTypeEnum& pidtype, int j, double v)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->setPidOffset(pidtype, j, v);
 }
 
-bool PassThroughControlBoard::isPidEnabled(const PidControlTypeEnum& pidtype, int j, bool* enabled)
+ReturnValue PassThroughControlBoard::setPidFeedforward(const PidControlTypeEnum& pidtype,
+                                                       int j,
+                                                       double v)
 {
     if (!proxyIPidControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIPidControl->setPidFeedforward(pidtype, j, v);
+}
+
+ReturnValue PassThroughControlBoard::getPidOffset(const PidControlTypeEnum& pidtype,
+                                                  int j,
+                                                  double& v)
+{
+    if (!proxyIPidControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIPidControl->getPidOffset(pidtype, j, v);
+}
+
+ReturnValue PassThroughControlBoard::getPidFeedforward(const PidControlTypeEnum& pidtype,
+                                                       int j,
+                                                       double& v)
+{
+    if (!proxyIPidControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
+    }
+    return proxyIPidControl->getPidFeedforward(pidtype, j, v);
+}
+
+ReturnValue PassThroughControlBoard::isPidEnabled(const PidControlTypeEnum& pidtype,
+                                                  int j,
+                                                  bool& enabled)
+{
+    if (!proxyIPidControl)
+    {
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIPidControl->isPidEnabled(pidtype, j, enabled);
 }
 
 // AXIS INFO
-bool PassThroughControlBoard::getAxisName(int axis, std::string& name)
+ReturnValue PassThroughControlBoard::getAxisName(int axis, std::string& name)
 {
     if (!proxyIAxisInfo)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAxisInfo->getAxisName(axis, name);
 }
-bool PassThroughControlBoard::getJointType(int axis, yarp::dev::JointTypeEnum& type)
+ReturnValue PassThroughControlBoard::getJointType(int axis, yarp::dev::JointTypeEnum& type)
 {
     if (!proxyIAxisInfo)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAxisInfo->getJointType(axis, type);
 }
 
 // AMPLIFIER CONTROL
-bool PassThroughControlBoard::enableAmp(int j)
+ReturnValue PassThroughControlBoard::enableAmp(int j)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->enableAmp(j);
 }
 
-bool PassThroughControlBoard::disableAmp(int j)
+ReturnValue PassThroughControlBoard::disableAmp(int j)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->disableAmp(j);
 }
 
-bool PassThroughControlBoard::getAmpStatus(int* st)
+ReturnValue PassThroughControlBoard::getAmpStatus(int* st)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getAmpStatus(st);
 }
 
-bool PassThroughControlBoard::getAmpStatus(int j, int* v)
+ReturnValue PassThroughControlBoard::getAmpStatus(int j, int* v)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getAmpStatus(j, v);
 }
 
-bool PassThroughControlBoard::getMaxCurrent(int j, double* v)
+ReturnValue PassThroughControlBoard::getMaxCurrent(int j, double* v)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getMaxCurrent(j, v);
 }
 
-bool PassThroughControlBoard::setMaxCurrent(int j, double v)
+ReturnValue PassThroughControlBoard::setMaxCurrent(int j, double v)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->setMaxCurrent(j, v);
 }
 
-bool PassThroughControlBoard::getNominalCurrent(int m, double* val)
+ReturnValue PassThroughControlBoard::getNominalCurrent(int m, double* val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getNominalCurrent(m, val);
 }
 
-bool PassThroughControlBoard::setNominalCurrent(int m, const double val)
+ReturnValue PassThroughControlBoard::setNominalCurrent(int m, const double val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->setNominalCurrent(m, val);
 }
 
-bool PassThroughControlBoard::getPeakCurrent(int m, double* val)
+ReturnValue PassThroughControlBoard::getPeakCurrent(int m, double* val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getPeakCurrent(m, val);
 }
 
-bool PassThroughControlBoard::setPeakCurrent(int m, const double val)
+ReturnValue PassThroughControlBoard::setPeakCurrent(int m, const double val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->setPeakCurrent(m, val);
 }
 
-bool PassThroughControlBoard::getPWM(int j, double* val)
+ReturnValue PassThroughControlBoard::getPWM(int j, double* val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getPWM(j, val);
 }
 
-bool PassThroughControlBoard::getPWMLimit(int j, double* val)
+ReturnValue PassThroughControlBoard::getPWMLimit(int j, double* val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getPWMLimit(j, val);
 }
 
-bool PassThroughControlBoard::setPWMLimit(int j, const double val)
+ReturnValue PassThroughControlBoard::setPWMLimit(int j, const double val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->setPWMLimit(j, val);
 }
 
-bool PassThroughControlBoard::getPowerSupplyVoltage(int j, double* val)
+ReturnValue PassThroughControlBoard::getPowerSupplyVoltage(int j, double* val)
 {
     if (!proxyIAmplifierControl)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIAmplifierControl->getPowerSupplyVoltage(j, val);
 }
 
 // CONTROL CALIBRATION
-bool PassThroughControlBoard::calibrateAxisWithParams(
+ReturnValue PassThroughControlBoard::calibrateAxisWithParams(
     int axis, unsigned int type, double p1, double p2, double p3)
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->calibrateAxisWithParams(axis, type, p1, p2, p3);
 }
 
-bool PassThroughControlBoard::setCalibrationParameters(int axis,
+ReturnValue PassThroughControlBoard::setCalibrationParameters(int axis,
                                                        const CalibrationParameters& params)
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->setCalibrationParameters(axis, params);
 }
 
-bool PassThroughControlBoard::calibrationDone(int j)
+ReturnValue PassThroughControlBoard::calibrationDone(int j)
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->calibrationDone(j);
 }
 
-bool PassThroughControlBoard::setCalibrator(ICalibrator* c)
+ReturnValue PassThroughControlBoard::setCalibrator(ICalibrator* c)
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->setCalibrator(c);
 }
 
-bool PassThroughControlBoard::calibrateRobot()
+ReturnValue PassThroughControlBoard::calibrateRobot()
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->calibrateRobot();
 }
 
-bool PassThroughControlBoard::park(bool wait)
+ReturnValue PassThroughControlBoard::park(bool wait)
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->park(wait);
 }
 
-bool PassThroughControlBoard::abortCalibration()
+ReturnValue PassThroughControlBoard::abortCalibration()
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->abortCalibration();
 }
 
-bool PassThroughControlBoard::abortPark()
+ReturnValue PassThroughControlBoard::abortPark()
 {
     if (!proxyIControlCalibration)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlCalibration->abortPark();
 }
 
 // CONTROL LIMITS
-bool PassThroughControlBoard::setLimits(int axis, double min, double max)
+ReturnValue PassThroughControlBoard::setPosLimits(int axis, double min, double max)
 {
     if (!proxyIControlLimits)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIControlLimits->setLimits(axis, min, max);
+    return proxyIControlLimits->setPosLimits(axis, min, max);
 }
 
-bool PassThroughControlBoard::getLimits(int axis, double* min, double* max)
+ReturnValue PassThroughControlBoard::getPosLimits(int axis, double* min, double* max)
 {
     if (!proxyIControlLimits)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
-    return proxyIControlLimits->getLimits(axis, min, max);
+    return proxyIControlLimits->getPosLimits(axis, min, max);
 }
-bool PassThroughControlBoard::setVelLimits(int axis, double min, double max)
+ReturnValue PassThroughControlBoard::setVelLimits(int axis, double min, double max)
 {
     if (!proxyIControlLimits)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlLimits->setVelLimits(axis, min, max);
 }
-bool PassThroughControlBoard::getVelLimits(int axis, double* min, double* max)
+ReturnValue PassThroughControlBoard::getVelLimits(int axis, double* min, double* max)
 {
     if (!proxyIControlLimits)
     {
-        return false;
+        return ReturnValue::return_code::return_value_error_method_failed;
     }
     return proxyIControlLimits->getVelLimits(axis, min, max);
 }
-

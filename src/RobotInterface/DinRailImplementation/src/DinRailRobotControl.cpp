@@ -178,16 +178,16 @@ bool DinRailRobotControl::setDriver(std::shared_ptr<yarp::dev::PolyDriver> robot
         return false;
     }
 
-    int dofs{0};
-    if (!axisInfo->getAxes(&dofs) || dofs <= 0)
+    std::size_t dofs{0};
+    if (!axisInfo->getAxes(dofs) || dofs == 0)
     {
         log()->error("{} Cannot retrieve the number of actuated DoFs.", errorPrefix);
         return false;
     }
-    m_pimpl->actuatedDOFs = static_cast<std::size_t>(dofs);
+    m_pimpl->actuatedDOFs = dofs;
 
     m_pimpl->jointTypes.resize(m_pimpl->actuatedDOFs);
-    for (int i = 0; i < dofs; ++i)
+    for (std::size_t i = 0; i < dofs; ++i)
     {
         yarp::dev::JointTypeEnum jType;
         axisInfo->getJointType(i, jType);

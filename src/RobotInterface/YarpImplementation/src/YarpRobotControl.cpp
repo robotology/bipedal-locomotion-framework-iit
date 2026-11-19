@@ -23,11 +23,13 @@
 #include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/IVelocityControl.h>
 #include <yarp/dev/PolyDriver.h>
+#include <yarp/dev/ReturnValue.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/RobotInterface/JointType.h>
+
 
 using namespace BipedalLocomotion::RobotInterface;
 
@@ -79,9 +81,13 @@ struct YarpRobotControl::Impl
 
     std::vector<IRobotControl::ControlMode> controlModes; /**< Vector containing the map between the
                                                              joint and the current control mode */
-    std::vector<yarp::conf::vocab32_t> controlModesYarp; /**< Vector containing the map between the
+    std::vector<yarp::dev::ControlModeEnum> controlModesYarp; /**< Vector containing the map between the
                                                              joint and the current yarp control mode
                                                           */
+
+    std::vector<yarp::dev::SelectableControlModeEnum> SelectableControlModesYarp; /**< Vector containing the map between the
+                                                             joint and the current yarp control mode
+                                                             */
 
     std::vector<std::string> axesName; /**< List containing the mapping between the joints index and
                                           the their name */
@@ -116,29 +122,29 @@ struct YarpRobotControl::Impl
     std::vector<int> subsetJointIndices; /**< Scratch: joint indices for name-based subset calls. */
 
     static IRobotControl::ControlMode
-    YarpControlModeToControlMode(const yarp::conf::vocab32_t& controlModeYarp)
+    YarpControlModeToControlMode(const yarp::dev::ControlModeEnum& controlModeYarp)
     {
         switch (controlModeYarp)
         {
-        case VOCAB_CM_POSITION:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_POSITION:
             return IRobotControl::ControlMode::Position;
 
-        case VOCAB_CM_POSITION_DIRECT:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_POSITION_DIRECT:
             return IRobotControl::ControlMode::PositionDirect;
 
-        case VOCAB_CM_VELOCITY:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_VELOCITY:
             return IRobotControl::ControlMode::Velocity;
 
-        case VOCAB_CM_TORQUE:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_TORQUE:
             return IRobotControl::ControlMode::Torque;
 
-        case VOCAB_CM_PWM:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_PWM:
             return IRobotControl::ControlMode::PWM;
 
-        case VOCAB_CM_CURRENT:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_CURRENT:
             return IRobotControl::ControlMode::Current;
 
-        case VOCAB_CM_IDLE:
+        case yarp::dev::ControlModeEnum::VOCAB_CM_IDLE:
             return IRobotControl::ControlMode::Idle;
 
         default:
@@ -146,34 +152,41 @@ struct YarpRobotControl::Impl
         }
     }
 
-    static yarp::conf::vocab32_t
-    ControlModeToYarpControlMode(const IRobotControl::ControlMode& controlMode)
+yarp::dev::ReturnValue    
+    ControlModeToYarpControlMode(const IRobotControl::ControlMode& controlMode, yarp::dev::SelectableControlModeEnum& yarpSelControlMode)
     {
         switch (controlMode)
         {
         case IRobotControl::ControlMode::Position:
-            return VOCAB_CM_POSITION;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION;
+            return yarp::dev::ReturnValue_ok;
 
         case IRobotControl::ControlMode::PositionDirect:
-            return VOCAB_CM_POSITION_DIRECT;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_POSITION_DIRECT;
+            return yarp::dev::ReturnValue_ok;
 
         case IRobotControl::ControlMode::Velocity:
-            return VOCAB_CM_VELOCITY;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_VELOCITY;
+            return yarp::dev::ReturnValue_ok;
 
         case IRobotControl::ControlMode::Torque:
-            return VOCAB_CM_TORQUE;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_TORQUE;
+            return yarp::dev::ReturnValue_ok;
 
         case IRobotControl::ControlMode::PWM:
-            return VOCAB_CM_PWM;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_PWM;
+            return yarp::dev::ReturnValue_ok;
 
         case IRobotControl::ControlMode::Current:
-            return VOCAB_CM_CURRENT;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_CURRENT;
+            return yarp::dev::ReturnValue_ok;
 
         case IRobotControl::ControlMode::Idle:
-            return VOCAB_CM_IDLE;
+            yarpSelControlMode = yarp::dev::SelectableControlModeEnum::VOCAB_CM_IDLE;
+            return yarp::dev::ReturnValue_ok;
 
         default:
-            return VOCAB_CM_UNKNOWN;
+            return yarp::dev::ReturnValue_error_input_out_of_bounds;
         }
     }
 
@@ -189,7 +202,7 @@ struct YarpRobotControl::Impl
 
         // try to read the control mode
         std::size_t counter = 0;
-        while (!this->controlModeInterface->getControlModes(this->controlModesYarp.data()))
+        while (!this->controlModeInterface->getControlModes(this->controlModesYarp))
         {
             if (++counter == this->maxReadingAttempts)
             {
@@ -231,14 +244,17 @@ struct YarpRobotControl::Impl
         for (std::size_t i = 0; i < this->actuatedDOFs; i++)
         {
             // convert the control mode into Yarp control mode
-            this->controlModesYarp[i] = ControlModeToYarpControlMode(controlModes[i]);
+            if(ControlModeToYarpControlMode(controlModes[i], this->SelectableControlModesYarp[i]) != yarp::dev::ReturnValue_ok)
+            {
+                log()->error("{} The control mode required is not supported. Please set a feasible control mode.",
+                             errorPrefix);
+                return false;
+            }
 
             // store the joint associated to a specific control mode
             this->desiredJointValuesAndMode.index[controlModes[i]].push_back(i);
         }
-
-        // set the control mode
-        if (!this->controlModeInterface->setControlModes(this->controlModesYarp.data()))
+        if (!this->controlModeInterface->setControlModes(this->SelectableControlModesYarp))
         {
             log()->error("{} Error settings the control mode.", errorPrefix);
             return false;
@@ -374,8 +390,8 @@ struct YarpRobotControl::Impl
         }
 
         // get the number of degree of freedom
-        int dofs = 0;
-        if (!encodersInterface->getAxes(&dofs))
+        std::size_t dofs = 0;
+        if (!encodersInterface->getAxes(dofs))
         {
             log()->error("{} Cannot get the actuated DoFs.", errorPrefix);
             return false;
@@ -386,6 +402,7 @@ struct YarpRobotControl::Impl
         this->positionFeedback.resize(this->actuatedDOFs);
         this->controlModes.resize(this->actuatedDOFs);
         this->controlModesYarp.resize(this->actuatedDOFs);
+        this->SelectableControlModesYarp.resize(this->actuatedDOFs);
         this->axesName.resize(this->actuatedDOFs);
 
         // reserve vector for subset control
@@ -445,8 +462,8 @@ struct YarpRobotControl::Impl
             this->axisInfoInterface->getAxisName(DOF, joint);
             this->axisInfoInterface->getJointType(DOF, jType);
             controlBoardJoints.push_back(joint);
-            if (jType != yarp::dev::VOCAB_JOINTTYPE_REVOLUTE
-                && jType != yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
+            if (jType != yarp::dev::JointTypeEnum::VOCAB_JOINTTYPE_REVOLUTE
+                && jType != yarp::dev::JointTypeEnum::VOCAB_JOINTTYPE_PRISMATIC)
             {
                 log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
                              "supported.",
@@ -454,7 +471,7 @@ struct YarpRobotControl::Impl
                 return false;
             }
 
-            controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
+            controlBoardJointTypes.push_back(yarp::dev::JointTypeEnum::VOCAB_JOINTTYPE_REVOLUTE == jType
                                                  ? JointType::REVOLUTE
                                                  : JointType::PRISMATIC);
         }
@@ -677,7 +694,7 @@ struct YarpRobotControl::Impl
                                    scaling * (jointError / positioningDurationSeconds));
                 }
 
-                if (!this->positionInterface->setRefSpeeds(indices.size(),
+                if (!this->positionInterface->setTrajSpeeds(indices.size(),
                                                            indices.data(),
                                                            this->positionControlRefSpeeds.data()))
                 {
@@ -913,9 +930,9 @@ struct YarpRobotControl::Impl
                                         scaling * (jointError / positioningDurationSeconds));
             }
 
-            if (!this->positionInterface->setRefSpeeds(n,
-                                                       jointIndices.data(),
-                                                       this->subsetRefSpeeds.data()))
+            if (!this->positionInterface->setTrajSpeeds(n,
+                                                        jointIndices.data(),
+                                                        this->subsetRefSpeeds.data()))
             {
                 log()->error("{} Unable to set the reference speed for the position control joints.",
                              errorPrefix);
@@ -1089,7 +1106,7 @@ bool YarpRobotControl::checkMotionDone(bool& motionDone,
 {
     constexpr auto errorPrefix = "[YarpRobotControl::checkMotionDone]";
 
-    if (!m_pimpl->positionInterface->checkMotionDone(&motionDone))
+    if (!m_pimpl->positionInterface->checkMotionDone(motionDone))
     {
         log()->error("{} Unable to check if the motion is terminated from the Yarp interface.",
                      errorPrefix);
@@ -1175,7 +1192,7 @@ bool YarpRobotControl::getJointLimits(Eigen::Ref<Eigen::VectorXd> lowerLimits,
 
     for (int i = 0; i < m_pimpl->actuatedDOFs; i++)
     {
-        m_pimpl->controlLimitsInterface->getLimits(i, &lowerLimits[i], &upperLimits[i]);
+        m_pimpl->controlLimitsInterface->getPosLimits(i, &lowerLimits[i], &upperLimits[i]);
     }
     return true;
 }

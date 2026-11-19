@@ -48,12 +48,12 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
     }
 
     // check the number of controlled joints
-    int controlBoardDOFs = 0;
+    std::size_t controlBoardDOFs = 0;
     yarp::dev::IEncoders* axis;
     m_controlBoard.poly->view(axis);
     if (axis != nullptr)
     {
-        axis->getAxes(&controlBoardDOFs);
+        axis->getAxes(controlBoardDOFs);
     }
 
     if (controlBoardDOFs != 1)

@@ -279,25 +279,32 @@ public:
     virtual bool detachAll();
 
     // CONTROL MODE
-    virtual bool getControlMode(int j, int* mode);
-    virtual bool getControlModes(int* modes);
-
-    // CONTROL MODE
-    virtual bool getControlModes(const int n_joint, const int* joints, int* modes);
-    virtual bool setControlMode(const int j, const int mode);
-    virtual bool setControlModes(int* modes);
-    virtual bool setControlModes(const int n_joint, const int* joints, int* modes);
+    virtual yarp::dev::ReturnValue
+    getAvailableControlModes(int j, std::vector<yarp::dev::SelectableControlModeEnum>& avail);
+    virtual yarp::dev::ReturnValue getControlMode(int j, yarp::dev::ControlModeEnum& mode);
+    virtual yarp::dev::ReturnValue
+    getControlModes(std::vector<yarp::dev::ControlModeEnum>& modes);
+    virtual yarp::dev::ReturnValue
+    getControlModes(std::vector<int> joints, std::vector<yarp::dev::ControlModeEnum>& modes);
+    virtual yarp::dev::ReturnValue
+    setControlMode(int j, yarp::dev::SelectableControlModeEnum mode);
+    virtual yarp::dev::ReturnValue
+    setControlModes(std::vector<yarp::dev::SelectableControlModeEnum> modes);
+    virtual yarp::dev::ReturnValue setControlModes(
+        std::vector<int> joints,
+        std::vector<yarp::dev::SelectableControlModeEnum> modes);
 
     // TORQUE CONTROL
-    virtual bool getRefTorques(double* t);
-    virtual bool getRefTorque(int j, double* t);
-    virtual bool setRefTorques(const int n_joints, const int* joints, const double* trqs);
-    virtual bool setRefTorques(const double* t);
-    virtual bool setRefTorque(int j, double t);
+    virtual yarp::dev::ReturnValue getRefTorques(double* t);
+    virtual yarp::dev::ReturnValue getRefTorque(int j, double* t);
+    virtual yarp::dev::ReturnValue
+    setRefTorques(const int n_joints, const int* joints, const double* trqs);
+    virtual yarp::dev::ReturnValue setRefTorques(const double* t);
+    virtual yarp::dev::ReturnValue setRefTorque(int j, double t);
 
     // HACK MOTOR ACCELERATION TO PUBLISH FRICTION TORQUES
-    virtual bool getMotorEncoderAcceleration(int j, double* acc);
-    virtual bool getMotorEncoderAccelerations(double* accs);
+    virtual yarp::dev::ReturnValue getMotorEncoderAcceleration(int j, double* acc);
+    virtual yarp::dev::ReturnValue getMotorEncoderAccelerations(double* accs);
 
     // CONTROL THREAD
     virtual bool threadInit();

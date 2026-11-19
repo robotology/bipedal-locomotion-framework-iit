@@ -32,7 +32,7 @@ blf_optional_find_package(rclcpp 16.0.0 QUIET)
 checkandset_dependency(rclcpp MINIMUM_VERSION 16.0.0)
 dependency_classifier(rclcpp MINIMUM_VERSION 16.0.0 IS_USED ${FRAMEWORK_USE_rclcpp} PUBLIC)
 
-blf_optional_find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools robotinterface QUIET)
+blf_optional_find_package(YARP 4.0.0 COMPONENTS companion profiler dev os idl_tools robotinterface QUIET)
 checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
 dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
                       COMPONENTS companion profiler dev os idl_tools robotinterface PUBLIC)
